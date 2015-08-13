@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import os
+import re
+import time
+import datetime
 import urllib2
 
 from github_archive_downloader import GithubArchiveDownloader
@@ -14,7 +17,7 @@ from github_archive_downloader import GithubArchiveDownloader
 """
 
 TEMPLATE_SPECFILE_PATH = "./template.spec"
-OPENSSL_VERSION = "1.0.1l"
+OPENSSL_VERSION = "1.0.2d"
 BDB_VERSION = "5.3.28"
 SOURCE_PATH = "rpmbuild/SOURCES"
 SPEC_PATH = "rpmbuild/SPECS"
@@ -73,8 +76,38 @@ class GenerateRpm(object):
         self._download_bdb()
         self._download_gcoin(g_downloader)
 
+    def create_specfile(self, g_downloader):
+
+        print "Creating specfile..."
+        specfile_path = "%s/dencs.spec" % SPEC_PATH
+        date = time.strftime("%Y%m%d")
+        name = raw_input("Enter your name : ")
+        email = raw_input("Enter your email : ")
+
+        week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        date_detail = "{} {} {}".format(week[datetime.datetime.today().weekday()],
+                        time.strftime("%B")[:3], time.strftime("%m %Y")
+                      )
+        change_log = "* {} {} <{}> - 0.0.{}git{}\n".format(date_detail,
+                        name, email, date, g_downloader.get_commit()[:7]
+                     )
+        change_log += "- Use the latest commit in branch no_fee_DEV\n"
+
+        with open('template.spec', 'r') as f_r, \
+             open(specfile_path, 'w') as f_w:
+            for line in f_r:
+                if '{ggggg1}' in line:
+                    line = re.sub('{ggggg1}', g_downloader.get_commit(), line)
+                if '{ggggg2}' in line:
+                    line = re.sub('{ggggg2}', date, line)
+                if '{ggggg3}' in line:
+                    line = re.sub('{ggggg3}', change_log, line)
+                f_w.write(line)
+
+
 if __name__ == '__main__':
 
     c = GithubArchiveDownloader('OpenNetworking', 'gcoin')
     g = GenerateRpm()
-    g.download_resources(c)
+#    g.download_resources(c)
+    g.create_specfile(c)
