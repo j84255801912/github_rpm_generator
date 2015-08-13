@@ -3,6 +3,7 @@
 
 import os
 import re
+import subprocess
 import time
 import datetime
 import urllib2
@@ -104,10 +105,16 @@ class GenerateRpm(object):
                     line = re.sub('{ggggg3}', change_log, line)
                 f_w.write(line)
 
+    def run_rpmbuild(self):
+
+        os.chdir(SPEC_PATH)
+        result = subprocess.call(["rpmbuild", "-bb", "dencs.spec"])
+
+        return result
 
 if __name__ == '__main__':
 
     c = GithubArchiveDownloader('OpenNetworking', 'gcoin')
     g = GenerateRpm()
-#    g.download_resources(c)
+    g.download_resources(c)
     g.create_specfile(c)
