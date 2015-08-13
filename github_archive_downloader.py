@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import base64
 import getpass
@@ -7,7 +8,7 @@ import os
 import sys
 import urllib2
 
-class GithubTarballDownloader(object):
+class GithubArchiveDownloader(object):
     """
         1. Connect to github and get branch and commit informations.
         2. Download the tarball from the repo.
@@ -172,7 +173,15 @@ class GithubTarballDownloader(object):
 
         return commit_verbose[0] # default is the commit_verbose[0], which is the HEAD
 
-    def download_tarball(self, path=None):
+    def get_branch(self):
+
+        return self._branch
+
+    def get_commit(self):
+
+        return self._commit
+
+    def download_archive(self, path=None):
 
         # handle path
         # default path is the path where this script been executed
@@ -201,5 +210,5 @@ class GithubTarballDownloader(object):
 
 if __name__ == '__main__':
 
-    c = GithubTarballDownloader('OpenNetworking', 'gcoin')
-    c.download_tarball()
+    c = GithubArchiveDownloader('OpenNetworking', 'gcoin')
+    c.download_archive()
