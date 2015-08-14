@@ -1,2 +1,8 @@
 *.pyc
 .*.swp
+rpmbuild/RPMS/*
+rpmbuild/SRPMS/*
+rpmbuild/BUILD/*
+rpmbuild/BUILDROOT/*
+rpmbuild/SPECS/*
+rpmbuild/SOURCES/*
