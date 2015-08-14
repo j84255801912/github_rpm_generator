@@ -139,6 +139,7 @@ class GenerateRpm(object):
     def run_rpmbuild(self):
 
         rpmbuild_dir = os.path.dirname(os.path.abspath(__file__)) + "/rpmbuild"
+
         success = subprocess.call(["rpmbuild", "--define",
                                    "_topdir %s" % rpmbuild_dir,
                                    "-bb", # only generate rpm.
@@ -150,7 +151,7 @@ class GenerateRpm(object):
             answer = raw_input('Add new change_log to template.spec ? [y] ')
             if answer == "" or answer[0] != 'n':
                 os.rename('template.spec', 'template.spec.bk')
-                os.rename('temp_template_spec', 'template.spec')
+                os.rename('temp_template.spec', 'template.spec')
 
         return success
 
