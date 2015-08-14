@@ -39,7 +39,7 @@ class GithubArchiveDownloader(object):
             username = raw_input("This repository needs authorization," +
                         " please enter github username : " if attempts == 3
                         else
-                           "Wrong username or password," +
+                           "Wrong username or password, " +
                            "please enter your username : ")
             password = getpass.getpass()
             # this yields something like 'brk0MjU1ODAxOLMyOnswOTA3MDkwNw==\n'
