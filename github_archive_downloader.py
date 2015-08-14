@@ -145,7 +145,7 @@ class GithubArchiveDownloader(object):
         commit_verbose = [str(i['sha']) for i in result_json]
         trimmed_commit_data = [(str(i['sha'][:8]),
                                 i['commit']['author']['name'],
-                                i['commit']['message'][:20].replace('\n', '') + "...")
+                                i['commit']['message'][:30].replace('\n', '') + "...")
                                 for i in result_json]
 
         return commit_verbose, trimmed_commit_data
@@ -157,10 +157,10 @@ class GithubArchiveDownloader(object):
         print "\n\n\n\n\n"
         print "Commits of branch {}".format(self._branch)
         print ("=" * 80)
-        print "%10s%25s%25s" % ("{commit}", "{author}", "{message}")
+        print "%10s%25s%40s" % ("{commit}", "{author}", "{message}")
         #print "{commit}\t{author}\t{message}"
         for i in trimmed_commit_data:
-            print "%10s%25s%25s" % (i[0], i[1], i[2])
+            print "%10s%25s%40s" % (i[0], i[1], i[2])
         print ""
 
         answer = raw_input("choose one commit : [{}] ".format(
