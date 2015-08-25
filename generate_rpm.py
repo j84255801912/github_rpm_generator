@@ -147,13 +147,11 @@ class GenerateRpm(object):
 
         print "\n\n\n\nRpmbuild done, rpm is in rpmbuild/RPMS/\n"
 
-        if success:
-            answer = raw_input('Add new change_log to template.spec ? [y] ')
-            if answer == "" or answer[0] != 'n':
-                os.rename('template.spec', 'template.spec.bk')
-                os.rename('temp_template.spec', 'template.spec')
+        answer = raw_input('Add new change_log to template.spec ? [y] ')
+        if answer == "" or answer[0] != 'n':
+            os.rename('template.spec', 'template.spec.bk')
+            os.rename('temp_template.spec', 'template.spec')
 
-        return success
 
 if __name__ == '__main__':
 
